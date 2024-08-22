@@ -1,0 +1,18 @@
+Webpack(import/export)
+    Bable
+    Scss
+    Eslint
+    2 Modes
+      -Dev
+       Dev Server(позволяет перезагружать приложение при сохранении ),
+       SourceMaps(Исходные карты для дебагинга),
+       Eslint(для чистоты кода и поддержании единого стиля разработки),
+       Not Minified JS & CSS
+      -Prod 
+       Minified Code
+Git
+
+    Production
+     1.0.0
+    Development
+     1.0.2
