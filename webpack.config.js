@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -12,7 +13,7 @@ module.exports = {
     filename: '[name].bundle.js',
   },
   resolve: {
-    extends: ['.js'],
+    extensions: ['.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@core': path.resolve(__dirname, 'src', 'core'),
@@ -22,13 +23,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src', 'favicon.ico'),
-          to: path.resolve(__dirname, 'dist'),
-        },
-      ],
-    }),
+    new FaviconsWebpackPlugin('fv.png'),
+    // new CopyPlugin({
+    //   patterns: [
+    //     {
+    //       from: path.resolve(__dirname, 'src', 'favicon.ico'),
+    //       to: path.resolve(__dirname, 'dist'),
+    //     },
+    //   ],
+    // }),
   ],
 };
