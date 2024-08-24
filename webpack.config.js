@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === 'production';
@@ -10,6 +11,24 @@ module.exports = (env, argv) => {
     isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
   console.log('isProd', isProd);
   console.log('isDev', isDev);
+
+  const plugins = () => {
+    const base = [
+      new HtmlWebpackPlugin({
+        template: './index.html',
+      }),
+      new FaviconsWebpackPlugin('fv.png'),
+
+      new MiniCssExtractPlugin({
+        filename: filename('css'),
+      }),
+    ];
+
+    if (isDev) {
+      base.push(new ESLintPlugin());
+    }
+    return base;
+  };
 
   return {
     context: path.resolve(__dirname, 'src'),
@@ -28,17 +47,14 @@ module.exports = (env, argv) => {
         '@core': path.resolve(__dirname, 'src', 'core'),
       },
     },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: './index.html',
-      }),
-      new FaviconsWebpackPlugin('fv.png'),
-
-      new MiniCssExtractPlugin({
-        filename: filename('css'),
-      }),
-    ],
+    devServer: {
+      port: 3000,
+      open: true,
+      hot: true,
+      watchFiles: './',
+    },
     devtool: isDev ? 'source-map' : false,
+    plugins: plugins(),
     module: {
       rules: [
         {
