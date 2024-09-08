@@ -4,7 +4,6 @@ module.exports = {
     requireConfigFile: false,
     babelOptions: {
       presets: ['@babel/preset-env'],
-      // configFile: './babel.config.json',
     },
   },
   env: {
@@ -14,10 +13,11 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'google'],
   rules: {
-    semi: 'off',
     'jsdoc/newline-after-description': 'off',
     'linebreak-style': 'off',
     'eol-last': 0,
     'require-jsdoc': 'off',
+    'object-curly-spacing': 'off',
+    'operator-linebreak': 'off',
   },
 };
