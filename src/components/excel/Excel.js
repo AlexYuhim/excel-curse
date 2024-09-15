@@ -7,16 +7,21 @@ export class Excel {
 
   getRoot() {
     const $root = $.create('div', 'excel');
-    this.components.forEach((Component) => {
+
+    this.components = this.components.map((Component) => {
       const $el = $.create('div', Component.className);
       const component = new Component($el);
       $el.html(component.toHTML());
       $root.append($el);
+      // console.log(component);
+      return component;
     });
     return $root;
   }
 
   render() {
     this.$el.append(this.getRoot());
+    this.components.forEach((component) => component.init());
+    // this.components.forEach((component) => component.removeInit());
   }
 }
