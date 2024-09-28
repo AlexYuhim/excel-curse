@@ -37,6 +37,22 @@ class Dom {
     }
     return this;
   }
+
+  parent(selector) {
+    return this.$el.parentNode;
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  coords(selector) {
+    return this.$el.getBoundingClientRect(selector);
+  }
+
+  all(selector) {
+    return Array.from(document.querySelectorAll(selector));
+  }
 }
 
 export function $(selector) {
