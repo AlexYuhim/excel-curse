@@ -2,7 +2,6 @@
 import { ExcelComponent } from '@/core/ExcelComponent';
 import { createTable } from './table.template';
 import { $ } from '@/core/Dom';
-// import { $ } from '@core/Dom';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -18,36 +17,46 @@ export class Table extends ExcelComponent {
 
   onMousedown(event) {
     const $resizer = $(event.target);
-    console.log($resizer.$el);
-    if (Object.values($resizer.$el.dataset).join('') === 'row') {
+    console.log($resizer.data.resize);
+
+    let valueMove;
+    if ($resizer.data.resize === 'row') {
       const $parent = $resizer.closest('.row');
       const $coord = $parent.coords();
-
       document.onmousemove = (e) => {
+        console.log('onmousemove');
+
         $resizer.$el.classList.add('_move');
-        const $delta = e.pageY - $coord.bottom;
-        $parent.$el.style.height = $coord.height + $delta + 'px';
+        valueMove = e.pageY - $coord.bottom;
+        $parent.$el.style.height = $coord.height + valueMove + 'px';
       };
+
       document.onmouseup = () => {
         $resizer.$el.classList.remove('_move');
         document.onmousemove = null;
       };
     }
 
-    if (Object.values($resizer.$el.dataset).join('') === 'col') {
+    if ($resizer.data.resize === 'col') {
       const $parent = $resizer.closest('[data-col]');
       const $coord = $parent.coords();
-      const $nameCol = `[data-col="${$parent.$el.dataset.col}"]`;
-      const $allCol = $().all($nameCol);
+      const $nameCol = `[data-col="${$parent.data.col}"]`;
+      const $allCol = this.$root.all($nameCol);
+
       document.onmousemove = (e) => {
         $resizer.$el.classList.add('_move');
-        const $delta = e.pageX - $coord.right;
-        $allCol.forEach((col) => {
-          col.style.width = $coord.width + $delta + 'px';
-        });
+        valueMove = e.pageX - $coord.right;
+        $parent.$el.style.width = $coord.width + valueMove + 'px';
       };
+
       document.onmouseup = () => {
         $resizer.$el.classList.remove('_move');
+        $allCol.forEach((col) => {
+          col.style.width =
+            $coord.width + valueMove < 0
+              ? '40px'
+              : $coord.width + valueMove + 'px';
+        });
         document.onmousemove = null;
       };
     }

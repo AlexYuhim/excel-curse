@@ -38,6 +38,10 @@ class Dom {
     return this;
   }
 
+  get data() {
+    return this.$el.dataset;
+  }
+
   parent(selector) {
     return this.$el.parentNode;
   }
