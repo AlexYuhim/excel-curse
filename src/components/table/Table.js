@@ -12,41 +12,36 @@ export class Table extends ExcelComponent {
     });
   }
   toHTML() {
-    return createTable();
+    return createTable(100);
   }
 
   onMousedown(event) {
-    const $resizer = $(event.target);
-    console.log($resizer.data.resize);
+    if (event.target.dataset.resizer) {
+      const $resizer = $(event.target);
+      const typeResizer = event.target.dataset.resizer;
+      console.log('typeResizer', typeResizer);
 
-    let valueMove;
-    if ($resizer.data.resize === 'row') {
-      const $parent = $resizer.closest('.row');
-      const $coord = $parent.coords();
-      document.onmousemove = (e) => {
-        console.log('onmousemove');
+      let valueMove;
 
-        $resizer.$el.classList.add('_move');
-        valueMove = e.pageY - $coord.bottom;
-        $parent.$el.style.height = $coord.height + valueMove + 'px';
-      };
-
-      document.onmouseup = () => {
-        $resizer.$el.classList.remove('_move');
-        document.onmousemove = null;
-      };
-    }
-
-    if ($resizer.data.resize === 'col') {
       const $parent = $resizer.closest('[data-col]');
       const $coord = $parent.coords();
-      const $nameCol = `[data-col="${$parent.data.col}"]`;
-      const $allCol = this.$root.all($nameCol);
+      const $allCol = this.$root.all(`[data-col="${$parent.data.col}"]`);
 
       document.onmousemove = (e) => {
-        $resizer.$el.classList.add('_move');
-        valueMove = e.pageX - $coord.right;
-        $parent.$el.style.width = $coord.width + valueMove + 'px';
+        if (typeResizer === 'col') {
+          $resizer.$el.classList.add('_move');
+          valueMove = e.pageX - $coord.right;
+
+          $parent.css({
+            width: $coord.width + valueMove + 'px',
+          });
+        } else {
+          $resizer.$el.classList.add('_move');
+          valueMove = e.pageY - $coord.bottom;
+          $parent.css({
+            height: $coord.height + valueMove + 'px',
+          });
+        }
       };
 
       document.onmouseup = () => {

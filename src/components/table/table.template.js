@@ -8,7 +8,7 @@ function toCol(el) {
   return `
      <div class="column" data-col='col${el}' >
      ${el}
-     <div class="col-resize" data-resize="col"></div>
+     <div class="col-resize" data-resizer="col"></div>
      </div>
     `;
 }
@@ -27,9 +27,9 @@ function toChar(_, index) {
   return String.fromCharCode(CODES.A + index);
 }
 function createRow(content, i) {
-  const resize = i ? '<div class="row-resize" data-resize="row"></div>' : '';
+  const resize = i ? '<div class="row-resize"  data-resizer="row"></div>' : '';
   return `
-    <div class="row">
+    <div class="row" data-col >
     <div class="row-info">${i ? i : ''}
     ${resize}
     </div>

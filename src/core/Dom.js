@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 class Dom {
   constructor(selector) {
     this.$el =
@@ -34,6 +35,13 @@ class Dom {
       this.$el.append(node);
     } else {
       this.$el.appendChild(node);
+    }
+    return this;
+  }
+
+  css(style = {}) {
+    for (const propStyle in style) {
+      this.$el.style[propStyle] = style[propStyle];
     }
     return this;
   }
