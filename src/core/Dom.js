@@ -7,7 +7,6 @@ class Dom {
   }
 
   html(html) {
-    // работае как гетер или сеттер
     if (typeof html === 'string') {
       this.$el.innerHTML = html;
       return this;
@@ -36,6 +35,32 @@ class Dom {
       this.$el.appendChild(node);
     }
     return this;
+  }
+
+  css(style = {}) {
+    Object.keys(style).forEach((key) => (this.$el.style[key] = style[key]));
+
+    return this;
+  }
+
+  get data() {
+    return this.$el.dataset;
+  }
+
+  parent(selector) {
+    return this.$el.parentNode;
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  coords(selector) {
+    return this.$el.getBoundingClientRect(selector);
+  }
+
+  all(selector) {
+    return Array.from(document.querySelectorAll(selector));
   }
 }
 
