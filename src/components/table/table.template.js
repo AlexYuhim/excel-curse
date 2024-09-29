@@ -3,7 +3,6 @@ const CODES = {
   A: 65,
   Z: 90,
 };
-// String.fromCharCode(65)
 function toCol(el) {
   return `
      <div class="column" data-col='col${el}' >

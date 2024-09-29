@@ -1,4 +1,3 @@
-/* eslint-disable guard-for-in */
 class Dom {
   constructor(selector) {
     this.$el =
@@ -8,7 +7,6 @@ class Dom {
   }
 
   html(html) {
-    // работае как гетер или сеттер
     if (typeof html === 'string') {
       this.$el.innerHTML = html;
       return this;
@@ -40,9 +38,8 @@ class Dom {
   }
 
   css(style = {}) {
-    for (const propStyle in style) {
-      this.$el.style[propStyle] = style[propStyle];
-    }
+    Object.keys(style).forEach((key) => (this.$el.style[key] = style[key]));
+
     return this;
   }
 
